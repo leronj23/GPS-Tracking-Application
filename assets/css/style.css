@@ -1,0 +1,44 @@
+body {
+    background-color: teal;
+}
+
+#login-title {
+    color: white;
+    font-size: 96px;
+    text-align: center;
+    margin-top: 40%;
+}
+
+form {
+    margin-top: 200px;
+}
+
+/* input[type=text], input[type=password] {
+    padding: 5px 0px 5px 15px;
+} */
+
+#username-input, #password-input {
+    max-width: 55%;
+    margin: 50px auto;
+}
+
+#username, #password {
+    font-size: 36px;
+    width: 100%;
+    padding: 5px 0px;
+}
+
+#username::placeholder, #password::placeholder {
+    text-align: center;
+}
+
+#login-input {
+    text-align: center;
+}
+
+#login-button {
+    color: white;
+    background-color: teal;
+    border-color: teal;
+    font-size: 48px;
+}
