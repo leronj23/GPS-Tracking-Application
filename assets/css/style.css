@@ -9,7 +9,7 @@ body {
     margin-top: 40%;
 }
 
-form {
+#login-form {
     margin-top: 200px;
 }
 
@@ -29,6 +29,7 @@ form {
 }
 
 #username::placeholder, #password::placeholder {
+    color: teal;
     text-align: center;
 }
 
@@ -40,5 +41,106 @@ form {
     color: white;
     background-color: teal;
     border-color: teal;
+    font-size: 48px;
+}
+
+#searchDriver {
+    max-width: 80%;
+    margin: 50px auto;
+    position: relative;
+}
+
+#driver-search {
+    font-size: 48px;
+    padding: 10px;
+    border: none;
+    /* border: 3px solid black; */
+    box-shadow: 0px 0px 10px black;
+    width: calc(100% - 140px);
+}
+
+#driver-search::placeholder {
+    color: teal;
+    text-align: center;
+}
+
+#search-button {
+    position: absolute;
+    top: calc(50% - 40px);
+    right: 0px;
+    padding: 0px;
+    border: 0px;
+    background-color: teal;
+}
+
+#find-driver-button {
+    color: white;
+    font-size: 80px;
+    text-shadow: 0px 0px 10px black;
+}
+
+#drivers {
+    max-width: 95%;
+    margin: auto;
+}
+
+.driver {
+    background-color: white;
+    margin: 30px 0px;
+    position: relative;
+    border-radius: 25px;
+    box-shadow: 0px 0px 10px black;
+}
+
+.driver:active {
+    box-shadow: none;
+}
+
+.driverID {
+    color: teal;
+    font-size: 60px;
+    padding: 20px 0px 7.5px 30px;
+    max-height: 60px;
+}
+
+.movement {
+    color: teal;
+    font-size: 36px;
+    padding: 0px 0px 20px 30px;
+    max-height: 36px;
+}
+
+.redDot {
+    height: 40px;
+    width: 40px;
+    background-color: red;
+    border-radius: 50%;
+    position: absolute;
+    right: 50px;
+    top: calc(50% - 20px);
+}
+
+.blueDot {
+    height: 40px;
+    width: 40px;
+    background-color: blue;
+    border-radius: 50%;
+    position: absolute;
+    right: 50px;
+    top: calc(50% - 20px);
+}
+
+.greenDot {
+    height: 40px;
+    width: 40px;
+    background-color: green;
+    border-radius: 50%;
+    position: absolute;
+    right: 50px;
+    top: calc(50% - 20px);
+}
+
+#errorMessage {
+    color: white;
     font-size: 48px;
 }
