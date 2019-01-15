@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Driver Info</title>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/"
+        crossorigin="anonymous">
+
+    <!-- CSS Stylesheets -->
+    <link rel="stylesheet" href="assets/css/reset.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+
+    <!-- jQuery -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <!-- Firebase Reference -->
+    <script src="https://www.gstatic.com/firebasejs/4.12.0/firebase.js"></script>
+</head>
+
+<body style="visibility: hidden;">
+    <header id="driver-header">
+        <a href="home-screen.html"><span id="return" class="fas fa-arrow-left"></span></a>
+        <div id="driverName"></div>
+        <span id="refresh" class="fas fa-redo"></span>
+    </header>
+
+    <div id="map"></div>
+
+    <!-- Javascript -->
+    <script src="assets/javascript/app.js"></script>
+
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBT4-Smwo_n351x0b99MpuTTm2M1_5MRg4&callback=initMap"></script>
+</body>
+
+</html>
