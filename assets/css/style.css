@@ -84,6 +84,10 @@ body {
     margin: auto;
 }
 
+a {
+    text-decoration: none;
+}
+
 .driver {
     background-color: white;
     margin: 30px 0px;
@@ -143,4 +147,38 @@ body {
 #errorMessage {
     color: white;
     font-size: 48px;
+}
+
+#driver-header {
+    position: relative;
+}
+
+#return {
+    color: white;
+    font-size: 60px;
+    position: absolute;
+    top: calc(50% - 30px);
+    left: 30px;
+}
+
+#refresh {
+    color: white;
+    font-size: 60px;
+    position: absolute;
+    top: calc(50% - 30px);
+    right: 30px;
+}
+
+#driverName {
+    color: white;
+    font-size: 60px;
+    text-align: center;
+    padding: 40px 0px;
+}
+
+#map {
+    height: 750px;
+    width: 90%;
+    border: 10px solid white;
+    margin: auto;
 }
