@@ -32,9 +32,36 @@ function callAPI() {
     });
 }
 
-// $('#refresh').on('click', function () {
-//     callAPI();
-// })
+$('#refresh').on('click', function () {
+    var getVehicleById = firebase.functions().httpsCallable('getVehicleById');
+    var driverId;
+
+
+    database.ref().on('value', function (snapshot) {
+        driverId = snapshot.val().name;
+        console.log(driverId);
+    })
+
+    // When you want to send arguments to CF.
+    getVehicleById({ text: driverId }).then(function (result) {
+
+        var refreshObject = JSON.parse(result.data);
+        console.log(refreshObject);
+        var path = refreshObject.gpsMessage[refreshObject.gpsMessage.length - 1];
+        var lat = path.latitude;
+        var lng = path.longitude;
+
+        database.ref().set({
+            name: driverId,
+            latitude: lat,
+            longitude: lng
+        });
+
+    }).catch(function (error) {
+
+        console.log('error', error)
+    });
+})
 
 function runCode() {
 
@@ -75,7 +102,7 @@ function runCode() {
             if (searchInput == array[i].driverId) {
                 $('#drivers').empty()
 
-                var driverId = array[i].driverId;
+                driverId = array[i].driverId;
                 var movement = $('<p>');
                 var movementIndicator = $('<span>');
                 if (object.gpsMessage[i].keyOn === false) {
@@ -89,15 +116,17 @@ function runCode() {
                     movementIndicator.attr('class', 'greenDot')
                 }
 
+                var driverLink = $('<a>').attr('href', 'driver-snapshot.html');
                 var driverDiv = $('<div>').attr('class', 'driver').attr('id', `driver-${i}`);
                 var driver = $('<p>').text(driverId).attr('class', 'driverID');
 
                 driverDiv.append(driver);
                 driverDiv.append(movementIndicator);
                 driverDiv.append(movement);
+                driverLink.append(driverDiv);
 
 
-                $('#drivers').append(driverDiv);
+                $('#drivers').append(driverLink);
                 counter++;
             }
 
@@ -164,19 +193,20 @@ function runCode() {
             return str;
         };
 
-        var driverName = array[str].driverId;
+        var driverId = array[str].driverId;
         var lat = array[str].latitude;
         var lng = array[str].longitude;
 
         database.ref().set({
-            name: driverName,
+            name: driverId,
             latitude: lat,
             longitude: lng
         });
 
     })
 
-}
+};
+
 // Google Maps API
 function initMap() {
 
