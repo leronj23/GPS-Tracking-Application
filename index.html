@@ -3,6 +3,22 @@
 
 <head>
     <meta charset="UTF-8">
+
+    <!-- Firebase Reference -->
+    <script src="https://www.gstatic.com/firebasejs/5.8.0/firebase-app.js"></script>
+
+    <!-- Firebase Authentication -->
+    <script src="https://www.gstatic.com/firebasejs/5.8.0/firebase-auth.js"></script>
+
+    <!-- Firebase Function -->
+    <script src="https://www.gstatic.com/firebasejs/5.8.0/firebase-functions.js"></script>
+
+    <!-- Firebase Database -->
+    <script src="https://www.gstatic.com/firebasejs/5.8.0/firebase-database.js"></script>
+
+    <!-- jQuery -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
     <title>Login</title>
 
     <!-- CSS Stylesheets -->
@@ -10,7 +26,8 @@
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
 
-<body>
+<!-- Sign Out if still logged in -->
+<body onload="signOut()">
     <header>
         <h1 id="login-title">Fleet GPS Tracking</h1>
     </header>
@@ -29,8 +46,15 @@
         <div id="login-input">
             <button id="login-button" type="submit">Login</button>
         </div>
+        <br />
+        <div id="login-input">
+            <button id="register-button" type="submit">Register</button>
+        </div>
 
     </form>
+
+    <!-- Javascript -->
+    <script src="assets/javascript/app.js"></script>
 </body>
 
 </html>

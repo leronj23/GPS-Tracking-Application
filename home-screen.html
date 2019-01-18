@@ -23,7 +23,9 @@
 
 </head>
 
-<body>
+<!-- Check if user is logged in -->
+<body onload="checkifLoggedIn()">
+
     <form id="searchDriver">
         <label for="driver-search"></label>
         <input type="text" id="driver-search" placeholder="Driver Name"><span id="clear-search" class="fas fa-times"></span>
@@ -33,7 +35,6 @@
 
     <!-- Div that will be populated with Driver's info -->
     <div id="drivers"></div>
-
 
     <!-- Javascript -->
     <script src="assets/javascript/app.js"></script>
