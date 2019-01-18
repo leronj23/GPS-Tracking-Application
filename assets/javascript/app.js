@@ -152,6 +152,12 @@ function runCode() {
         }
     })
 
+    $('#clear-search').on('click', function() {
+        $('#drivers').empty();
+        $('#driver-search').val('');
+        runCode();
+    })
+
     for (var i = 0; i < array.length; i++) {
 
         var driverId = array[i].driverId;
