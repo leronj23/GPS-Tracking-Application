@@ -31,9 +31,17 @@ body {
 
 #login-input {
     text-align: center;
+    margin-bottom: 20px;
 }
 
 #login-button {
+    color: white;
+    background-color: teal;
+    border-color: teal;
+    font-size: 48px;
+}
+
+#register-button {
     color: white;
     background-color: teal;
     border-color: teal;

@@ -15,7 +15,7 @@ var database = firebase.database();
 
 var message = firebase.functions().httpsCallable('getVehicleData');
 
-callAPI();
+//callAPI();
 
 function callAPI() {
     // When you dont want to send arguments to CF. Use '()'
@@ -87,7 +87,7 @@ function runCode() {
     alphabeticalOrder(driverList);
 
     function alphabeticalOrder(driverList) {
-        
+
         sortArr = driverList.sort();
 
     }
@@ -152,7 +152,7 @@ function runCode() {
         }
     })
 
-    $('#clear-search').on('click', function() {
+    $('#clear-search').on('click', function () {
         $('#drivers').empty();
         $('#driver-search').val('');
         runCode();
@@ -262,7 +262,6 @@ function initMap() {
         $('body').attr('style', 'visibility: show;')
 
     })
-
 }
 
 //Driver List, must be manually updated
@@ -341,3 +340,97 @@ var driverList = [
     "Wayne Watkins, AL",
     "Wilbur Darby, SC"
 ];
+
+
+// Login 
+$('#login-button').on('click', function () {
+
+    event.preventDefault();
+
+    const email = $('#username').val();
+    const password = $('#password').val();
+
+    firebase.auth().signInWithEmailAndPassword(email, password)
+        .then(function (result) {
+
+            // console.log(result)
+
+            window.location.href = "home-screen.html";
+        })
+        .catch(function (error) {
+
+            // Handle Errors here.
+            var errorCode = error.code;
+            var errorMessage = error.message;
+
+            alert("Please enter a user name and password!")
+        })
+});
+
+
+// Register 
+$('#register-button').on('click', function () {
+
+    event.preventDefault();
+
+    const email = $('#username').val();
+    const password = $('#password').val();
+
+    firebase.auth().createUserWithEmailAndPassword(email, password)
+        .then(function (result) {
+
+            // console.log(result)
+
+            window.location.href = "home-screen.html";
+        })
+        .catch(function (error) {
+
+            // Handle Errors here.
+            var errorCode = error.code;
+            var errorMessage = error.message;
+
+            alert("Please enter a user name and password!")
+        })
+});
+
+
+// Check if logged in
+function checkifLoggedIn() {
+
+    // Check when user hit the page
+    firebase.auth().onAuthStateChanged(function (user) {
+
+        if (user) {
+
+            callAPI();
+
+            // User is signed in.
+            //   var displayName = user.displayName;
+            //   var email = user.email;
+            //   var emailVerified = user.emailVerified;
+            //   var photoURL = user.photoURL;
+            //   var isAnonymous = user.isAnonymous;
+            //   var uid = user.uid;
+            //   var providerData = user.providerData;
+
+            // ...
+        } else {
+
+            // User is signed out.
+            // ...
+        }
+    });
+}
+
+
+// Sign Out
+function signOut(){
+
+    firebase.auth().signOut().then(function() {
+
+        console.log('Signed Out');
+      }, function(error) {
+    
+        console.error('Sign Out Error', error);
+      });
+}
