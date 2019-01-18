@@ -15,10 +15,6 @@ var database = firebase.database();
 
 var message = firebase.functions().httpsCallable('getVehicleData');
 
-//var tokenObject = firebase.functions().httpsCallable('getToken');
-
-//console.log(tokenObject);
-
 callAPI();
 
 function callAPI() {
@@ -45,14 +41,14 @@ $('#refresh').on('click', function () {
 
     //Grabs snapshot of name data
     database.ref().on('value', function (snapshot) {
-         driverId = snapshot.val().name;
-         console.log(driverId);
-         
-     })
+        driverId = snapshot.val().name;
+        console.log(driverId);
+
+    })
 
     //Looks for a match in data, sets newLat and newLng, this should always find a match
     for (var i = 0; i < object.gpsMessage.length; i++) {
-        if (driverId === object.gpsMessage[i].vehicleId){
+        if (driverId === object.gpsMessage[i].vehicleId) {
             console.log("match found");
             newLat = object.gpsMessage[i].latitude;
             newLng = object.gpsMessage[i].longitude;
@@ -87,21 +83,36 @@ function runCode() {
         }
     }
 
+    var sortArr = [];
+    alphabeticalOrder(driverList);
+
+    function alphabeticalOrder(driverList) {
+        
+        sortArr = driverList.sort();
+
+    }
+
     $('#search-button').on('click', function (event) {
 
         event.preventDefault();
 
         var searchInput = $('#driver-search').val();
-        console.log(searchInput);
+        var lowerCaseInput = searchInput.toLowerCase();
 
         var counter = 0;
 
         for (var i = 0; i < array.length; i++) {
 
-            if (searchInput == array[i].driverId) {
-                $('#drivers').empty()
+            var str = sortArr[i];
+            var lowerCase = str.toLowerCase();
 
-                driverId = array[i].driverId;
+            if (lowerCase.includes(lowerCaseInput)) {
+
+                if (counter === 0) {
+                    $('#drivers').empty()
+                }
+
+                driverId = sortArr[i];
                 var movement = $('<p>');
                 var movementIndicator = $('<span>');
                 if (object.gpsMessage[i].keyOn === false) {
@@ -145,7 +156,7 @@ function runCode() {
 
         var driverId = array[i].driverId;
         //Uses driverId to pull the correct driverName from the list
-        var driverName = driverList[driverId];
+        var driverName = driverList[i];
 
         var movement = $('<p>');
         var movementIndicator = $('<span>');
@@ -196,12 +207,16 @@ function runCode() {
             return str;
         };
 
+        var driverName = sortArr[str];
         var driverId = array[str].driverId;
         var lat = array[str].latitude;
         var lng = array[str].longitude;
 
+        console.log(driverName);
+
         database.ref().set({
-            name: driverId,
+            name: driverName,
+            Id: driverId,
             latitude: lat,
             longitude: lng
         });
@@ -215,11 +230,13 @@ function initMap() {
 
     database.ref().on('value', function (snapshot) {
         var driverChosen = snapshot.val();
-        var driverName = driverList[driverChosen.name];
+        var driverName = driverChosen.name;
 
         //var driverName = driverChosen.name;
         var lat = driverChosen.latitude;
         var lng = driverChosen.longitude;
+
+        console.log(lat, lng);
 
         $('#driverName').text(driverName);
 
@@ -243,40 +260,78 @@ function initMap() {
 }
 
 //Driver List, must be manually updated
-var driverList = {
-    717682: "Al Burch, VA",
-    868716: "Al Fain, NC",
-    837619: "Johnny Hyde, GA",
-    863025: "Bobby Sheheane, GA",
-    837937: "Bryan Ashton, FL",
-    900765: "Curtis Doyle, TN",
-    876391: "Ellen Copper, CO",
-    777730: "Greg Hinton, TX",
-    699220: "Henry Roussell, FL",
-    840382: "Jim MacDonald, CA",
-    900836: "Jeff Lee, TX",
-    884808: "Jerry Brooks, MS",
-    541592: "Jerry Patterson, NC",
-    837928: "Jim Fulford, AL",
-    704381: "Jim Jennings, FL",
-    535095: "Johnny Houser, GA",
-    886933: "Josh Curtis, FL",
-    558973: "Kira Stover, AZ",
-    615135: "Marc Macias, CA",
-    906046: "Mark Glenn, UT",
-    639461: "Mark Young, LA",
-    784181: "David Truesdell, TX",
-    627403: "Mike Flynn, MI",
-    362699: "Robert Ramirez, CA",
-    894730: "Scott Brilliant, FL",
-    930373: "Steve Durban, IN",
-    680780: "Steve Schein, WI",
-    928176: "Terry Reine, KS",
-    927551: "Tim Chapman, SC",
-    721340: "Tim Johnson, GA",
-    711929: "Todd Hohenwater, IL",
-    720829: "Tony Smith, GA",
-    853393: "Uninstalled, N/A",
-    849829: "Wayne Watkins, AL",
-    837892: "Wilbur Darby, SC"
-}
+// var driverList = {
+//     717682: "Al Burch, VA",
+//     868716: "Al Fain, NC",
+//     837619: "Johnny Hyde, GA",
+//     863025: "Bobby Sheheane, GA",
+//     837937: "Bryan Ashton, FL",
+//     900765: "Curtis Doyle, TN",
+//     876391: "Ellen Copper, CO",
+//     777730: "Greg Hinton, TX",
+//     699220: "Henry Roussell, FL",
+//     840382: "Jim MacDonald, CA",
+//     900836: "Jeff Lee, TX",
+//     884808: "Jerry Brooks, MS",
+//     541592: "Jerry Patterson, NC",
+//     837928: "Jim Fulford, AL",
+//     704381: "Jim Jennings, FL",
+//     535095: "Johnny Houser, GA",
+//     886933: "Josh Curtis, FL",
+//     558973: "Kira Stover, AZ",
+//     615135: "Marc Macias, CA",
+//     906046: "Mark Glenn, UT",
+//     639461: "Mark Young, LA",
+//     784181: "David Truesdell, TX",
+//     627403: "Mike Flynn, MI",
+//     362699: "Robert Ramirez, CA",
+//     894730: "Scott Brilliant, FL",
+//     930373: "Steve Durban, IN",
+//     680780: "Steve Schein, WI",
+//     928176: "Terry Reine, KS",
+//     927551: "Tim Chapman, SC",
+//     721340: "Tim Johnson, GA",
+//     711929: "Todd Hohenwater, IL",
+//     720829: "Tony Smith, GA",
+//     853393: "Uninstalled, N/A",
+//     849829: "Wayne Watkins, AL",
+//     837892: "Wilbur Darby, SC"
+// }
+
+var driverList = [
+    "Al Burch, VA",
+    "Al Fain, NC",
+    "Johnny Hyde, GA",
+    "Bobby Sheheane, GA",
+    "Bryan Ashton, FL",
+    "Curtis Doyle, TN",
+    "Ellen Copper, CO",
+    "Greg Hinton, TX",
+    "Henry Roussell, FL",
+    "Jim MacDonald, CA",
+    "Jeff Lee, TX",
+    "Jerry Brooks, MS",
+    "Jerry Patterson, NC",
+    "Jim Fulford, AL",
+    "Jim Jennings, FL",
+    "Johnny Houser, GA",
+    "Josh Curtis, FL",
+    "Kira Stover, AZ",
+    "Marc Macias, CA",
+    "Mark Glenn, UT",
+    "Mark Young, LA",
+    "David Truesdell, TX",
+    "Mike Flynn, MI",
+    "Robert Ramirez, CA",
+    "Scott Brilliant, FL",
+    "Steve Durban, IN",
+    "Steve Schein, WI",
+    "Terry Reine, KS",
+    "Tim Chapman, SC",
+    "Tim Johnson, GA",
+    "Todd Hohenwater, IL",
+    "Tony Smith, GA",
+    "Uninstalled, N/A",
+    "Wayne Watkins, AL",
+    "Wilbur Darby, SC"
+];
