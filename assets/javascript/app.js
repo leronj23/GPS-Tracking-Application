@@ -15,6 +15,10 @@ var database = firebase.database();
 
 var message = firebase.functions().httpsCallable('getVehicleData');
 
+//var tokenObject = firebase.functions().httpsCallable('getToken');
+
+//console.log(tokenObject);
+
 callAPI();
 
 function callAPI() {
@@ -81,10 +85,6 @@ function runCode() {
 
             array.push(driverInfo);
         }
-        // database.ref().set({
-        //     drivers: array
-        // });
-
     }
 
     $('#search-button').on('click', function (event) {
