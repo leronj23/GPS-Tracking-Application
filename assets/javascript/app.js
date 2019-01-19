@@ -34,6 +34,10 @@ $('#refresh').on('click', function () {
         //Requires API, refreshes every 1-2 minutes, a refresh called before then "doesn't update" because the required data is the same as previous data
         callAPI();
 
+        setTimeout(function() {
+            resolve();
+        }, 4000);
+
     }).then(function () {
         var driverId;
         var newLat;
