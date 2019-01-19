@@ -30,38 +30,41 @@ function callAPI() {
 
 //Refresh handler
 $('#refresh').on('click', function () {
-    //Requires API, refreshes every 1-2 minutes, a refresh called before then "doesn't update" because the required data is the same as previous data
-    callAPI();
+    new Promise(function (resolve, reject) {
+        //Requires API, refreshes every 1-2 minutes, a refresh called before then "doesn't update" because the required data is the same as previous data
+        callAPI();
 
-    var driverId;
-    var newLat;
-    var newLng;
+    }).then(function () {
+        var driverId;
+        var newLat;
+        var newLng;
 
-    //Grabs snapshot of name data
-    database.ref().on('value', function (snapshot) {
-        driverId = snapshot.val().name;
-        console.log(driverId);
+        //Grabs snapshot of name data
+        database.ref().on('value', function (snapshot) {
+            driverId = snapshot.val().name;
+            console.log(driverId);
 
+            console.log(object);
+
+            //Looks for a match in data, sets newLat and newLng, this should always find a match
+            for (var i = 0; i < object.gpsMessage.length; i++) {
+                if (driverId === object.gpsMessage[i].vehicleId) {
+                    console.log("match found");
+                    newLat = object.gpsMessage[i].latitude;
+                    newLng = object.gpsMessage[i].longitude;
+
+                    database.ref().set({
+                        name: driverId,
+                        latitude: newLat,
+                        longitude: newLng
+                    });
+                }
+            }
+        })
     })
-
-    console.log(object);
-
-    //Looks for a match in data, sets newLat and newLng, this should always find a match
-    for (var i = 0; i < object.gpsMessage.length; i++) {
-        if (driverId === object.gpsMessage[i].vehicleId) {
-            console.log("match found");
-            newLat = object.gpsMessage[i].latitude;
-            newLng = object.gpsMessage[i].longitude;
-
-            database.ref().set({
-                name: driverId,
-                latitude: newLat,
-                longitude: newLng
-            });
-        }
-    }
 })
 
+//Runs the main code, generates driver's list
 function runCode() {
 
     var array = [];
@@ -92,6 +95,7 @@ function runCode() {
 
     }
 
+    //Search button Handler
     $('#search-button').on('click', function (event) {
 
         event.preventDefault();
@@ -152,6 +156,7 @@ function runCode() {
         }
     })
 
+    //Clears Search history
     $('#clear-search').on('click', function () {
         $('#drivers').empty();
         $('#driver-search').val('');
@@ -193,8 +198,8 @@ function runCode() {
 
     }
 
-    console.log(array);
 
+    //Driver List Handler
     $('#drivers').on('click', '.driver', function () {
         var driver = $(this).attr('id');
 
@@ -234,7 +239,7 @@ function runCode() {
 // Google Maps API
 function initMap() {
 
-    callAPI();
+    //callAPI();
 
     database.ref().on('value', function (snapshot) {
         var driverChosen = snapshot.val();
@@ -266,45 +271,7 @@ function initMap() {
     })
 }
 
-//Driver List, must be manually updated
-// var driverList = {
-//     717682: "Al Burch, VA",
-//     868716: "Al Fain, NC",
-//     837619: "Johnny Hyde, GA",
-//     863025: "Bobby Sheheane, GA",
-//     837937: "Bryan Ashton, FL",
-//     900765: "Curtis Doyle, TN",
-//     876391: "Ellen Copper, CO",
-//     777730: "Greg Hinton, TX",
-//     699220: "Henry Roussell, FL",
-//     840382: "Jim MacDonald, CA",
-//     900836: "Jeff Lee, TX",
-//     884808: "Jerry Brooks, MS",
-//     541592: "Jerry Patterson, NC",
-//     837928: "Jim Fulford, AL",
-//     704381: "Jim Jennings, FL",
-//     535095: "Johnny Houser, GA",
-//     886933: "Josh Curtis, FL",
-//     558973: "Kira Stover, AZ",
-//     615135: "Marc Macias, CA",
-//     906046: "Mark Glenn, UT",
-//     639461: "Mark Young, LA",
-//     784181: "David Truesdell, TX",
-//     627403: "Mike Flynn, MI",
-//     362699: "Robert Ramirez, CA",
-//     894730: "Scott Brilliant, FL",
-//     930373: "Steve Durban, IN",
-//     680780: "Steve Schein, WI",
-//     928176: "Terry Reine, KS",
-//     927551: "Tim Chapman, SC",
-//     721340: "Tim Johnson, GA",
-//     711929: "Todd Hohenwater, IL",
-//     720829: "Tony Smith, GA",
-//     853393: "Uninstalled, N/A",
-//     849829: "Wayne Watkins, AL",
-//     837892: "Wilbur Darby, SC"
-// }
-
+//Driver List Array, must be manually updated API doesn't return names
 var driverList = [
     "Al Burch, VA",
     "Al Fain, NC",
@@ -344,7 +311,7 @@ var driverList = [
 ];
 
 
-// Login 
+// Login Button Handler
 $('#login-button').on('click', function () {
 
     event.preventDefault();
@@ -370,7 +337,7 @@ $('#login-button').on('click', function () {
 });
 
 
-// Register 
+// Register Button Handler
 $('#register-button').on('click', function () {
 
     event.preventDefault();
@@ -426,13 +393,13 @@ function checkifLoggedIn() {
 
 
 // Sign Out
-function signOut(){
+function signOut() {
 
-    firebase.auth().signOut().then(function() {
+    firebase.auth().signOut().then(function () {
 
         console.log('Signed Out');
-      }, function(error) {
-    
+    }, function (error) {
+
         console.error('Sign Out Error', error);
-      });
+    });
 }
