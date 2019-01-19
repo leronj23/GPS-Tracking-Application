@@ -15,7 +15,7 @@ var database = firebase.database();
 
 var message = firebase.functions().httpsCallable('getVehicleData');
 
-//callAPI();
+callAPI();
 
 function callAPI() {
     // When you dont want to send arguments to CF. Use '()'
