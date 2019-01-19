@@ -15,8 +15,6 @@ var database = firebase.database();
 
 var message = firebase.functions().httpsCallable('getVehicleData');
 
-callAPI();
-
 function callAPI() {
     // When you dont want to send arguments to CF. Use '()'
     message().then(function (result) {
@@ -45,6 +43,8 @@ $('#refresh').on('click', function () {
         console.log(driverId);
 
     })
+
+    console.log(object);
 
     //Looks for a match in data, sets newLat and newLng, this should always find a match
     for (var i = 0; i < object.gpsMessage.length; i++) {
@@ -233,6 +233,8 @@ function runCode() {
 
 // Google Maps API
 function initMap() {
+
+    callAPI();
 
     database.ref().on('value', function (snapshot) {
         var driverChosen = snapshot.val();
