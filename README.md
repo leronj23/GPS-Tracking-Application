@@ -1,5 +1,7 @@
 # GPS-Navigation-Application
 
+GPS navigation tracking application using technology powered by Verizon.
+
 # Link to deployed site
 https://gps-tracking-application.herokuapp.com/
 
